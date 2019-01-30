@@ -1,13 +1,24 @@
 <?php
-namespace WordpressApiWrapper;
+namespace Somecoding\WordpressApiWrapper;
 
 
 
 use GuzzleHttp\Client;
-use Somecoding\WordpressApiWrapper\Model\Api;
-use Symfony\Component\Cache\Simple\MemcachedCache;
+use Somecoding\WordpressApiWrapper\Service\ApiService;
+use Symfony\Component\Cache\Simple\RedisCache;
+use Zend\Hydrator\ClassMethodsHydrator;
+
 
 require_once __DIR__. '/../vendor/autoload.php';
-$cache = new MemcachedCache(new \Memcached('test'));
+$redis = new \Redis();
+$time = microtime(true);
+$cache = new RedisCache($redis);
 $guzzle = new Client();
-$api = new Api( $guzzle, 'https://prosystem-ag.com', $cache);
+$hydrator = new ClassMethodsHydrator();
+
+
+
+$api = new ApiService( $guzzle, 'https://prosystem-ag.com',$hydrator, $cache);
+$t  = $api->getAllRoutes();
+$duratrion = microtime(true) - $time;
+echo $duratrion;

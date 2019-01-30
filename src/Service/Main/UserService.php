@@ -1,7 +1,9 @@
 <?php
 
-namespace Somecoding\WordpressApiWrapper\Service\Wordpress;
+namespace Somecoding\WordpressApiWrapper\Service\Main;
 
+use Somecoding\WordpressApiWrapper\Exception\NotYetImplemented;
+use Somecoding\WordpressApiWrapper\Model\User;
 use Somecoding\WordpressApiWrapper\Service\ApiService;
 
 /**
@@ -10,6 +12,10 @@ use Somecoding\WordpressApiWrapper\Service\ApiService;
  */
 class UserService
 {
+	/**
+	 * @var string
+	 */
+	const USERS_URL_STRING = 'wp/v2/users/';
 
 	/**
 	 * @var ApiService
@@ -23,5 +29,30 @@ class UserService
 	public function __construct(ApiService $apiService)
 	{
 		$this->apiService = $apiService;
+	}
+
+	public function getUserByName(string $name): ?User
+	{
+		throw new NotYetImplemented();
+	}
+
+	public function getUserById(int $userId): ?User
+	{
+		throw new NotYetImplemented();
+	}
+
+	public function getUserBySearchString(string $needle): ?User
+	{
+		throw new NotYetImplemented();
+	}
+
+	public function getUserByEmail(string $email): ?User
+	{
+		throw new NotYetImplemented();
+	}
+
+	public function getAllAvailableUsers(): array
+	{
+		throw new NotYetImplemented();
 	}
 }

@@ -9,6 +9,7 @@ namespace Somecoding\WordpressApiWrapper\Model;
 class Endpoint extends HydratableModel
 {
 	protected $methods;
+
 	protected $args;
 
 	/**

@@ -1,7 +1,8 @@
 <?php
 
-namespace Somecoding\WordpressApiWrapper\Service\Wordpress;
+namespace Somecoding\WordpressApiWrapper\Service\Main;
 
+use Somecoding\WordpressApiWrapper\Exception\NotYetImplemented;
 use Somecoding\WordpressApiWrapper\Service\ApiService;
 
 /**
@@ -10,6 +11,10 @@ use Somecoding\WordpressApiWrapper\Service\ApiService;
  */
 class PostService
 {
+	/**
+	 * @var string
+	 */
+	const POST_URL_STRING = 'wp/v2/posts/';
 
 	/**
 	 * @var ApiService
@@ -24,4 +29,30 @@ class PostService
 	{
 		$this->apiService = $apiService;
 	}
+
+	public function getPosts(
+		int $page = 1,
+		int $perPage = 10,
+		string $searchString = '',
+		\DateTime $releasedAfterDate = null,
+		\DateTime $releasedBeforeDate = null,
+		array $authorIds = null,
+		array $excludedAuthors = null,
+		array $excludePostIds = null,
+		array $onlyPostIds = null,
+		int $offset = 0,
+		string $order = 'asc',
+		string $orderBy = 'date',
+		array $categories = null,
+		array $excludeCategories = null,
+		array $tags = null,
+		array $excludedTags = null,
+		bool $isSticky = false
+
+
+	) {
+		return $this->apiService->getHydratedApiPage(self::POST_URL_STRING);
+	}
+
+
 }

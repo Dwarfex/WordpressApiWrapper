@@ -1,6 +1,6 @@
 <?php
 
-namespace Somecoding\WordpressApiWrapper\Service\Wordpress;
+namespace Somecoding\WordpressApiWrapper\Service\Main;
 
 use Somecoding\WordpressApiWrapper\Service\ApiService;
 
@@ -10,7 +10,6 @@ use Somecoding\WordpressApiWrapper\Service\ApiService;
  */
 class SearchService
 {
-
 	/**
 	 * @var ApiService
 	 */

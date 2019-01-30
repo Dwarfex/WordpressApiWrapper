@@ -6,10 +6,13 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use Psr\SimpleCache\CacheInterface;
 use Somecoding\WordpressApiWrapper\Exception\ApiNotAvailable;
+use Somecoding\WordpressApiWrapper\Exception\NonHydratableModel;
 use Somecoding\WordpressApiWrapper\Model\Api;
 use Somecoding\WordpressApiWrapper\Model\HydratableModel;
 use Somecoding\WordpressApiWrapper\Model\Route;
+use Zend\Config\Config;
 use Zend\Hydrator\HydratorInterface;
+use Zend\ServiceManager\ConfigInterface;
 
 /**
  * Class ApiService
@@ -48,22 +51,34 @@ class ApiService
 	protected $hydrator;
 
 	/**
+	 * @var Config
+	 */
+	protected $config;
+
+	/**
 	 * ApiService constructor.
 	 * @param Client $client
 	 * @param string $siteUrl
 	 * @param HydratorInterface $hydrator
+	 * @param Config $wordpressWrapperConfig
 	 * @param CacheInterface|null $simpleCacheAdapter
 	 * @throws \GuzzleHttp\Exception\GuzzleException
 	 * @throws \Psr\SimpleCache\InvalidArgumentException
 	 */
 	public function __construct(
 		Client $client,
-		string $siteUrl,
 		HydratorInterface $hydrator,
+		Config $wordpressWrapperConfig,
+		string $siteUrl = null,
 		CacheInterface $simpleCacheAdapter = null
 	) {
 		$this->httpClient = $client;
+		$this->config = $wordpressWrapperConfig;
 		$this->hydrator = $hydrator;
+		if (empty($siteUrl)) {
+			$siteUrl = $this->config->get('defaultHost');
+		}
+
 		if (!empty($simpleCacheAdapter)) {
 			$this->cache = $simpleCacheAdapter;
 		}
@@ -87,9 +102,9 @@ class ApiService
 	public function getAllRoutes()
 	{
 		$page = $this->siteUrl;
-		$pageObject = new Api($this->hydrator);
+
 		/** @var Api $hydrated */
-		$hydrated = $this->getHydratedApiPage($page, $pageObject);
+		$hydrated = $this->getHydratedApiPage($page);
 
 		return $hydrated->getRoutes();
 
@@ -147,15 +162,60 @@ class ApiService
 	/**
 	 * @param string $page
 	 * @param HydratableModel $pageObject
-	 * @return object
+	 * @return object|array
 	 * @throws \GuzzleHttp\Exception\GuzzleException
 	 * @throws \Psr\SimpleCache\InvalidArgumentException
 	 */
-	public function getHydratedApiPage(string $page, HydratableModel $pageObject): object
+	public function getHydratedApiPage(string $page)
 	{
+		$offset = 0;
+
+
+		if (strpos($page, $this->siteUrl) === false) {
+			$page = sprintf('%s/%s', $this->siteUrl, $page);
+			$offset = 1;
+		}
 		$content = json_decode($this->getUrl($page), true);
-		$hydrated = $this->hydrator->hydrate($content, $pageObject);
-		return $hydrated;
+
+		$basePathClearedUrl = substr($page, strlen($this->siteUrl) + $offset);
+		$modelClass = $this->config->models->get($basePathClearedUrl);
+
+		if ($this->arrayIsNumericallyIndexed($content)) {
+			$hydratedValues = [];
+			foreach ($content as $extractableArray) {
+				$hydratableModel = new $modelClass($this->hydrator);
+				if (!$hydratableModel instanceof HydratableModel) {
+					throw new NonHydratableModel(sprintf('Model: "%s" is not a HydratableModel - Tried using this model for config route: %s',
+						$modelClass, $basePathClearedUrl));
+				}
+				$hydratedValues[] = $this->hydrator->hydrate($extractableArray, $hydratableModel);
+			}
+
+
+			return $hydratedValues;
+		}
+
+		$hydratableModel = new $modelClass($this->hydrator);
+		if (!$hydratableModel instanceof HydratableModel) {
+			throw new NonHydratableModel(sprintf('Model: "%s" is not a HydratableModel - Tried using this model for config route: %s',
+				$modelClass, $basePathClearedUrl));
+		}
+
+		return $this->hydrator->hydrate($content, $hydratableModel);
+	}
+
+	/**
+	 * @param array $array
+	 * @return bool
+	 */
+	protected function arrayIsNumericallyIndexed(array $array): bool
+	{
+		foreach ($array as $key => $value) {
+			if (!is_int($key)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

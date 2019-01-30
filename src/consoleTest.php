@@ -19,6 +19,7 @@ use Zend\Hydrator\ClassMethodsHydrator;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $redis = new \Redis();
+$redis->connect('127.0.0.1');
 
 $config = new Config(require_once __DIR__ . '/../config/wordpressApiWrapper.global.php');
 $wpApiWrapperConfig = $config->wordpressApiWrapper;

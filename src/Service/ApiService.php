@@ -89,7 +89,7 @@ class ApiService
         }
 
         $apiAvailable = $this->getUrl($this->siteUrl);
-        if ($apiAvailable === null | empty($apiAvailable['url'])) {
+        if ($apiAvailable === null | empty(json_decode($apiAvailable, true)['url'])) {
             throw new ApiNotAvailable(sprintf('The API of %s is not available.', $this->siteUrl));
         }
     }

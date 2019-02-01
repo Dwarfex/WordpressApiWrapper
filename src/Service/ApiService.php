@@ -89,7 +89,7 @@ class ApiService
         }
 
         $apiAvailable = $this->getUrl($this->siteUrl);
-        if ($apiAvailable === null) {
+        if ($apiAvailable === null | empty($apiAvailable['url'])) {
             throw new ApiNotAvailable(sprintf('The API of %s is not available.', $this->siteUrl));
         }
     }
@@ -116,7 +116,9 @@ class ApiService
         $content = $response->getBody()->getContents();
 
         if ($this->isValidJsonResponse(json_encode($content))) {
-            $this->cache->set(md5($url . serialize($parameters)), $content, self::API_CACHING_TIME);
+            if ($this->cache instanceof CacheInterface) {
+                $this->cache->set(md5($url . serialize($parameters)), $content, self::API_CACHING_TIME);
+            }
             return $content;
         }
 

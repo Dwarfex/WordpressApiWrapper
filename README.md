@@ -1,3 +1,4 @@
+[![Maintainability](https://api.codeclimate.com/v1/badges/f55fc2b42845f004d247/maintainability)](https://codeclimate.com/github/Dwarfex/WordpressApiWrapper/maintainability)
 # Wordpress API Wrapper
 
 This is a Wrapper for the API provided by most Wordpress Blogs. Intended for easy crawling of a Wordpress page.

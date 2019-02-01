@@ -8,8 +8,9 @@ namespace WordpressApiWrapper;
  */
 class Facade
 {
-	public function getApi($pageUrl){
-		
-	}
+    public function getApi($pageUrl)
+    {
+
+    }
 
 }

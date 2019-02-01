@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Somecoding\WordpressApiWrapper\Service\Main;
 
@@ -12,47 +13,48 @@ use Somecoding\WordpressApiWrapper\Service\ApiService;
  */
 class UserService
 {
-	/**
-	 * @var string
-	 */
-	const USERS_URL_STRING = 'wp/v2/users/';
+    /**
+     * @var string
+     */
+    const USERS_URL_STRING = 'wp/v2/users/';
 
-	/**
-	 * @var ApiService
-	 */
-	protected $apiService;
+    /**
+     * @var ApiService
+     */
+    protected $apiService;
 
-	/**
-	 * PostService constructor.
-	 * @param ApiService $apiService
-	 */
-	public function __construct(ApiService $apiService)
-	{
-		$this->apiService = $apiService;
-	}
+    /**
+     * PostService constructor.
+     * @param ApiService $apiService
+     */
+    public function __construct(ApiService $apiService)
+    {
+        $this->apiService = $apiService;
+        throw new NotYetImplemented();
+    }
 
-	public function getUserByName(string $name): ?User
-	{
-		throw new NotYetImplemented();
-	}
+    public function getUserByName(string $name): ?User
+    {
+        throw new NotYetImplemented();
+    }
 
-	public function getUserById(int $userId): ?User
-	{
-		throw new NotYetImplemented();
-	}
+    public function getUserById(int $userId): ?User
+    {
+        throw new NotYetImplemented();
+    }
 
-	public function getUserBySearchString(string $needle): ?User
-	{
-		throw new NotYetImplemented();
-	}
+    public function getUserBySearchString(string $needle): ?User
+    {
+        throw new NotYetImplemented();
+    }
 
-	public function getUserByEmail(string $email): ?User
-	{
-		throw new NotYetImplemented();
-	}
+    public function getUserByEmail(string $email): ?User
+    {
+        throw new NotYetImplemented();
+    }
 
-	public function getAllAvailableUsers(): array
-	{
-		throw new NotYetImplemented();
-	}
+    public function getAllAvailableUsers(): array
+    {
+        throw new NotYetImplemented();
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Somecoding\WordpressApiWrapper\Exception;
 
@@ -8,5 +9,4 @@ namespace Somecoding\WordpressApiWrapper\Exception;
  */
 class NonHydratableModel extends \InvalidArgumentException
 {
-
 }

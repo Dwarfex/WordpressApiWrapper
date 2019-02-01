@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Somecoding\WordpressApiWrapper\Model;
 
@@ -8,46 +9,49 @@ namespace Somecoding\WordpressApiWrapper\Model;
  */
 class Endpoint extends HydratableModel
 {
-	protected $methods;
+    /**
+     * @var string[]
+     */
+    protected $methods;
 
-	protected $args;
+    /**
+     * @var array
+     */
+    protected $args;
 
-	/**
-	 * @return mixed
-	 */
-	public function getMethods()
-	{
-		return $this->methods;
-	}
+    /**
+     * @return string[]
+     */
+    public function getMethods(): array
+    {
+        return $this->methods;
+    }
 
-	/**
-	 * @param mixed $methods
-	 * @return Endpoint
-	 */
-	public function setMethods($methods)
-	{
-		$this->methods = $methods;
-		return $this;
-	}
+    /**
+     * @param string[] $methods
+     * @return Endpoint
+     */
+    public function setMethods(array $methods): Endpoint
+    {
+        $this->methods = $methods;
+        return $this;
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function getArgs()
-	{
-		return $this->args;
-	}
+    /**
+     * @return array
+     */
+    public function getArgs(): array
+    {
+        return $this->args;
+    }
 
-	/**
-	 * @param mixed $args
-	 * @return Endpoint
-	 */
-	public function setArgs($args)
-	{
-		$this->args = $args;
-		return $this;
-	}
-
-
-
+    /**
+     * @param array $args
+     * @return Endpoint
+     */
+    public function setArgs(array $args): Endpoint
+    {
+        $this->args = $args;
+        return $this;
+    }
 }

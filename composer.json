@@ -2,7 +2,6 @@
   "name": "somecoding/wp-api-wrapper",
   "type": "library",
   "description": "This is a Wrapper for the API provided by most Wordpress Blogs. Intended for easy crawling of a Wordpress page.",
-  "version": "0.0.1",
   "keywords": [
     "Dwarfex",
     "Wordpress",

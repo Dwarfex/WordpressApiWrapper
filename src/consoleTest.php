@@ -20,11 +20,11 @@ $config = new Config(require_once __DIR__ . '/../config/wordpressApiWrapper.glob
 
 $wpApiWrapperConfig = $config->wordpressApiWrapper;
 
-$cacheInterface = new RedisCache($redis);
+//$cacheInterface = new RedisCache($redis);
 $guzzleClient = new Client();
 $hydrator = new ClassMethodsHydrator();
 
-$api = new ApiService($guzzleClient, $hydrator, $wpApiWrapperConfig, 'https://example.com.com', $cacheInterface);
+$api = new ApiService($guzzleClient, $hydrator, $wpApiWrapperConfig, 'https://prosystem-ag.com');
 //$categoriesService = new CategoriesService($api);
 //$mediaService = new MediaService($api);
 //$pageService = new PageService($api);

@@ -3,6 +3,12 @@
 
 This is a Wrapper for the API provided by most Wordpress Blogs. Intended for easy crawling of a Wordpress page.
 
+## How to install
+
+For installing you currently need to specify a version of this project as this project is currently not stable.
+
+Simply do: "composer require somecoding/wp-api-wrapper:0.0.x" in your project where x ist the latest version number.
+
 ## Default Available Services
 Some default Services are available to wrap common occurrences of Wordpress API data:
 
@@ -39,7 +45,7 @@ $cacheInterface = new RedisCache($redis);
 $guzzleClient = new Client();
 $hydrator = new ClassMethodsHydrator();
 
-$api = new ApiService($guzzleClient, $hydrator, $wpApiWrapperConfig, 'https://prosystem-ag.com', $cacheInterface);
+$api = new ApiService($guzzleClient, $hydrator, $wpApiWrapperConfig, 'https://example.com', $cacheInterface);
 $categoriesService = new CategoriesService($api);
 $mediaService = new MediaService($api);
 $pageService = new PageService($api);

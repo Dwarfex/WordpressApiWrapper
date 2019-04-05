@@ -6,6 +6,7 @@ namespace Somecoding\WordpressApiWrapper;
 use GuzzleHttp\Client;
 use Somecoding\WordpressApiWrapper\Model\Post;
 use Somecoding\WordpressApiWrapper\Service\ApiService;
+use Somecoding\WordpressApiWrapper\Service\ClassGeneration;
 use Somecoding\WordpressApiWrapper\Service\Main\PostService;
 use Symfony\Component\Cache\Simple\RedisCache;
 use Zend\Config\Config;
@@ -20,11 +21,14 @@ $config = new Config(require_once __DIR__ . '/../config/wordpressApiWrapper.glob
 
 $wpApiWrapperConfig = $config->wordpressApiWrapper;
 
-//$cacheInterface = new RedisCache($redis);
+$cacheInterface = new RedisCache($redis);
 $guzzleClient = new Client();
 $hydrator = new ClassMethodsHydrator();
 
 $api = new ApiService($guzzleClient, $hydrator, $wpApiWrapperConfig, 'https://prosystem-ag.com');
+$generator = new ClassGeneration($guzzleClient, $cacheInterface);
+$generator->generateClassesFromApi('https://www.example.com/wp-json/', 'ProsystemApi');
+die;
 //$categoriesService = new CategoriesService($api);
 //$mediaService = new MediaService($api);
 //$pageService = new PageService($api);
